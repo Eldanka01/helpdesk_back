@@ -119,3 +119,7 @@ STATIC_ROOT = '/var/www/static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = ['http://138.197.177.162:8000']
+
+CSRF_COOKIE_SECURE = False
