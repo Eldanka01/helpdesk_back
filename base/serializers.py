@@ -48,6 +48,7 @@ class LecturerSerializer(serializers.ModelSerializer):
 
 class HelpDeskRequestSerializer(serializers.ModelSerializer):
     handler_username = serializers.SerializerMethodField()
+    auditorium_number_display = serializers.SerializerMethodField()
 
     class Meta:
         model = HelpDeskRequest
@@ -56,9 +57,13 @@ class HelpDeskRequestSerializer(serializers.ModelSerializer):
     def get_handler_username(self, obj):
         return obj.handler.username if obj.handler else None
 
+    def get_auditorium_number_display(self, obj):
+        return obj.auditorium_number.number
+
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['handler_username'] = self.get_handler_username(instance)
+        representation['auditorium_number_display'] = self.get_auditorium_number_display(instance)
         return representation
 
 

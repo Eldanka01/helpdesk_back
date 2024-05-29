@@ -7,7 +7,8 @@ class HelpDeskUser(models.Model):
     username = models.CharField(max_length=255, unique=True)
 
     class Meta:
-        verbose_name_plural = "HelpDesk сотрудник"
+        verbose_name = "HelpDesk сотрудник"
+        verbose_name_plural = "HelpDesk сотрудники"
 
     def __str__(self):
             return f'{self.username}'
@@ -19,21 +20,26 @@ class Lecturer(models.Model):
 
 
     class Meta:
-        verbose_name_plural = "Преподаватели и Сотрудники"
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
     def __str__(self):
         return f'{self.full_name}'
     
 
 class Auditorium(models.Model):
-    number = models.CharField(max_length=100, verbose_name='Номер аудитории')
+    number = models.CharField(max_length=100, verbose_name='Номер терминала')
+
+    class Meta:
+        verbose_name = "Терминал"
+        verbose_name_plural = "Терминалы"
 
     def __str__(self):
         return self.number
 
 
 class HelpDeskRequest(models.Model):
-    auditorium_number = models.ForeignKey(Auditorium, on_delete=models.CASCADE, verbose_name='Аудитория')
+    auditorium_number = models.ForeignKey(Auditorium, on_delete=models.CASCADE, verbose_name='Терминал')
     description = models.TextField(verbose_name='Описание')
     creator = models.CharField(max_length=100, verbose_name='От')
     phone_number = models.CharField(max_length=20, blank=True, null=True, verbose_name='Телефонный номер')
@@ -49,7 +55,7 @@ class HelpDeskRequest(models.Model):
         (IN_PROCESS, 'В обработке'),
         (CLOSED, 'Закрыта'),
     ]
-    status = models.CharField(
+    status = models.CharField( 
          max_length=20,
          choices=STATUS_CHOICES,
          default=NEW,
@@ -60,6 +66,7 @@ class HelpDeskRequest(models.Model):
         return reverse('auditorium_detail', args=[self.auditorium.number])
 
     class Meta:
+        verbose_name = "Заявка HelpDesk"
         verbose_name_plural = "Заявки HelpDesk"
 
     def __str__(self):
